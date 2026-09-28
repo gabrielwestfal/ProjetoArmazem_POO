@@ -1,4 +1,4 @@
-class Fornecedor {
+export class Fornecedor {
     #razaoSocial;
     #cnpj;
     #telefone;
