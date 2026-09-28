@@ -8,11 +8,11 @@ export class Produto {
     #vendas = [];
 
     constructor (descricao, precoCompra, precoVenda, estoque, fornecedor = undefined) {
-        this.#descricao = descricao;
+        this.#descricao = descricao.toUpperCase();
         this.#precoCompra = precoCompra;
         this.#precoVenda = precoVenda;
         this.#estoque = estoque;
-        this.#fornecedor = fornecedor;
+        this.#fornecedor = fornecedor.toUpperCase();
     }
 
     // Getters & Setters
@@ -34,7 +34,7 @@ export class Produto {
     }
 
     set descricao (descricao) {
-        this.#descricao = descricao;
+        this.#descricao = descricao.toUpperCase(); 
     }
     set precoCompra (preco) {
         this.#precoCompra = preco;
