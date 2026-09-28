@@ -1,7 +1,7 @@
-import { Fornecedor } from "./Fornecedor";
-import { Produto } from "./Produto";
+import { Fornecedor } from "./Fornecedor.js";
+import { Produto } from "./Produto.js";
 
-export class ArmazemControler {
+export class ArmazemController {
     #vetProdutos;
     #vetFornecedores;
     
