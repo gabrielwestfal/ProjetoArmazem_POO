@@ -4,7 +4,14 @@ import { Produto } from "./Produto";
 export class ArmazemControler {
     #vetProdutos;
     #vetFornecedores;
+    
+    // Parte Fornecedor
 
 
     
+
+    // Parte Produto
+
+
+
 }
