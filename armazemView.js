@@ -1,16 +1,16 @@
 import { ArmazemController } from "./ArmazemController.js";
 
 const controller = new ArmazemController();
-controller.carregarDados();
+// controller.carregarDados();
 
 // ── Elementos do DOM ─────────────────────────────────────────────────────────
 const rbProduto      = document.getElementById("rbProduto");
 const rbFornecedor   = document.getElementById("rbFornecedor");
-const divProduto     = document.getElementById("cadastroProduto");
-const divFornecedor  = document.getElementById("cadastroFornecedor");
+const divProduto     = document.getElementById("divProduto");
+const divFornecedor  = document.getElementById("divFornecedor");
 
-const selectProduto    = document.getElementById("selectOpcaoProduto");
-const selectFornecedor = document.getElementById("selectOpcaoFornecedor");
+const selectProduto    = document.getElementById("sltProduto");
+const selectFornecedor = document.getElementById("sltFornecedor");
 
 // Campos Produto
 const inProduto     = document.getElementById("inProduto");
