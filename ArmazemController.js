@@ -108,12 +108,12 @@ export class ArmazemController {
         return false;
     }
     pesquisarProduto(descricao){
-        
-        
         let prod = this.#vetProdutos.find(
             (produto) => produto.descricao == descricao.toUpperCase()
         );
-        console.log(prod);
+        if(prod == undefined){
+            return false;
+        }
         return {
             descricao:prod.descricao,
             precoCompra:prod.precoCompra,
@@ -128,25 +128,19 @@ export class ArmazemController {
         if(indProdutoExcluido == -1){
             return false;
         }else{
-            this.#vetProdutos.forEach((fornecedor) => {
-                fornecedor.excluirProduto(this.#vetProdutos[indProdutoExcluido])
-            });
-            this.#vetProdutos.slice(indProdutoExcluido,1);
+            this.#vetProdutos.splice(indProdutoExcluido,1);
             return true;    
         }
         
     }
-    alterarProduto(descricao,precoCompra,precoVenda,estoque,fornecedor){
-        let produto = this.#vetProdutos.find(
+    alterarProduto(descricao,precoCompra,precoVenda){
+        let prod = this.#vetProdutos.find(
             (produto) => produto.descricao == descricao.toUpperCase()
         );
 
-        if(produto != undefined){
-            produto.descricao = descricao;
-            produto.precoCompra = precoCompra;
-            produto.precoVenda = precoVenda;
-            produto.estoque = estoque;
-            produto.fornecedor = fornecedor;
+        if(prod != undefined){
+            prod.precoCompra = precoCompra;
+            prod.precoVenda = precoVenda;
             return true;
         }
         return false;
