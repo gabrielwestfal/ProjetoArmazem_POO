@@ -2,8 +2,8 @@ import { Fornecedor } from "./Fornecedor.js";
 import { Produto } from "./Produto.js";
 
 export class ArmazemController {
-    #vetProdutos;
-    #vetFornecedores;
+    #vetProdutos = [];
+    #vetFornecedores = [];
     
     // Parte Fornecedor
 
@@ -92,19 +92,35 @@ export class ArmazemController {
     }
     // Parte Produto
 
-    cadastrarProduto(descricao,precoCompra,precoVenda,estoque,fornecedor) {
-        let novoProduto = this.pesquisarProduto(descricao);
+    cadastrarProduto(descricao,precoCompra,precoVenda,estoque,cnpjFornecedor) {
+        let novoProduto = this.#vetProdutos.find(
+            (produto) => produto.descricao == descricao.toUpperCase()
+        );
 
         if(novoProduto == undefined){
-            this.#vetProdutos.push(new Produto(descricao,precoCompra,precoVenda,estoque,fornecedor));
+            let forn = this.#vetFornecedores.find((fornecedor)=> fornecedor.cnpj == cnpjFornecedor);
+            if(forn == undefined){
+                return false;
+            }
+            this.#vetProdutos.push(new Produto(descricao,precoCompra,precoVenda,estoque,forn));
             return true;
         }
         return false;
     }
     pesquisarProduto(descricao){
-        return this.#vetProdutos.find(
+        
+        
+        let prod = this.#vetProdutos.find(
             (produto) => produto.descricao == descricao.toUpperCase()
         );
+        console.log(prod);
+        return {
+            descricao:prod.descricao,
+            precoCompra:prod.precoCompra,
+            precoVenda:prod.precoVenda,
+            estoque:prod.estoque,
+            fornecedor:prod.fornecedor
+        }
     }
     excluirProduto(descricao){
         let indProdutoExcluido = this.#vetProdutos.findIndex((produto) =>
@@ -121,7 +137,9 @@ export class ArmazemController {
         
     }
     alterarProduto(descricao,precoCompra,precoVenda,estoque,fornecedor){
-        let produto = this.pesquisarProduto(descricao);
+        let produto = this.#vetProdutos.find(
+            (produto) => produto.descricao == descricao.toUpperCase()
+        );
 
         if(produto != undefined){
             produto.descricao = descricao;
@@ -133,4 +151,5 @@ export class ArmazemController {
         }
         return false;
     }
+
 }

@@ -577,3 +577,7 @@ function criarTabelaFornecedores(lista) {
     table.appendChild(tbody);
     return table;
 }
+console.log(controller.cadastrarFornecedor("gabe", 123, 321, "rua gabe", 1000));
+console.log(controller.cadastrarProduto("maçã", 1, 2, 5, 123));
+console.log(controller.pesquisarProduto("maçã"));
+console.log(controller.alterarProduto("maçã",2 , 4, 7, 123));
