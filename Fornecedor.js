@@ -38,6 +38,9 @@ export class Fornecedor {
     get creditoDisponibilizado(){
         return this.#creditoDisponibilizado;
     }
+    set creditoDisponibilizado(novoCredito){
+        this.#creditoDisponibilizado = novoCredito;
+    }
 
     toString(){
         return `Razão Social: ${this.#razaoSocial}

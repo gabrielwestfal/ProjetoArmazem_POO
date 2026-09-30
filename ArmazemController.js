@@ -2,8 +2,8 @@ import { Fornecedor } from "./Fornecedor.js";
 import { Produto } from "./Produto.js";
 
 export class ArmazemController {
-    #vetProdutos;
-    #vetFornecedores;
+    #vetProdutos = [];
+    #vetFornecedores = [];
     
     // Parte Fornecedor
 
@@ -11,25 +11,21 @@ export class ArmazemController {
         let jaCadastrado = this.#vetFornecedores.find(fornecedor => fornecedor.cnpj == cnpj);
         if (jaCadastrado == undefined) {
             this.#vetFornecedores.push(new Fornecedor(razaoSocial, cnpj, telefone, endereco, credito))
-            return "CADASTRO_REALIZADO"
+            return true
         }
         else {
-            return "CADASTRO_NÃO_REALIZADO"
+            return false
         }
     }
     excluirFornecedor(cnpj) {
-        let indCadastro = this.#vetFornecedores.findIndex(fornecedor => fornecedor.cnpj == cnpj);
+        let indFornecedor = this.#vetFornecedores.findIndex(fornecedor => fornecedor.cnpj == cnpj);
         let indProduto = this.#vetProdutos.findIndex(produto => produto.fornecedor.cnpj == cnpj)
-        if (indCadastro == -1) {
-            this.#vetFornecedores.splice(indCadastro, 1)
-            return "FORNECEDOR_NÃO_CADASTRADO"
-        }
-        else if (indProduto !== -1){
-            return "FORNECEDOR_VINCULADO_EM_PRODUTO"
-        }
+        if (indFornecedor == -1) return "FORNECEDOR_NAO_ENCONTRADO";
+        else if (indProduto != -1) return "FORNECEDOR_COM_PRODUTOS";
         else {
-            return "FORNECEDOR_DELETADO"
-        }
+            this.#vetFornecedores.splice(indFornecedor, 1)
+            return "SUCESSO"
+        } 
     }
     consultarFornecedor(cnpj) {
         let cadastro = this.#vetFornecedores.find(fornecedor => fornecedor.cnpj == cnpj);
@@ -39,7 +35,7 @@ export class ArmazemController {
                 cnpj: cnpj,
                 telefone: cadastro.telefone,
                 endereco: cadastro.endereco,
-                credito: cadastro.creditoDisponibilizado
+                creditoDisp: cadastro.creditoDisponibilizado
             };
         }
         else {
@@ -52,13 +48,15 @@ export class ArmazemController {
         if (cadastro !== undefined) {
             // Caso o cadastro seja encontrado, verifica cada campo preenchido e apenas 
             // altera o objeto caso os parâmetros tenham sido informados
-            cadastro.razaoSocial = razaoSocial || cadastro.razaoSocial;
-            cadastro.telefone = telefone || cadastro.telefone;
-            cadastro.endereco = endereco || cadastro.endereco;
-            cadastro.creditoDisponibilizado = credito || cadastro.creditoDisponibilizado;
+            cadastro.razaoSocial = razaoSocial !== "" ? razaoSocial : cadastro.razaoSocial;
+            cadastro.telefone = telefone !== "" ? telefone : cadastro.telefone;
+            cadastro.endereco = endereco !== "" ? endereco : cadastro.endereco;
+            cadastro.creditoDisponibilizado = credito !== 0 ? credito : cadastro.creditoDisponibilizado;
+
+            return true
         }
         else {
-            return "FORNECEDOR_NÃO_ENCONTRADO";
+            return false;
         }
     }
     listarFornecedores() {
@@ -68,7 +66,7 @@ export class ArmazemController {
                 cnpj: fornecedor.cnpj,
                 telefone: fornecedor.telefone,
                 endereco: fornecedor.endereco,
-                credito: fornecedor.creditoDisponibilizado
+                creditoDisp: fornecedor.creditoDisponibilizado
             };
         })
         return fornecedores;
@@ -85,7 +83,7 @@ export class ArmazemController {
                 cnpj: fornecedor.cnpj,
                 telefone: fornecedor.telefone,
                 endereco: fornecedor.endereco,
-                credito: fornecedor.creditoDisponibilizado
+                creditoDisp: fornecedor.creditoDisponibilizado
             };
         })
         
