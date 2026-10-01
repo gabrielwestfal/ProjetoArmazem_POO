@@ -119,12 +119,15 @@ export class ArmazemController {
     }
     listarProdutos() {
         return this.#vetProdutos.map((produto) => {
+            let totalVendasAno = produto.vendas.reduce((vendaMes, acumulador) => acumulador + vendaMes);
             return {
                 descricao: produto.descricao,
                 precoCompra: produto.precoCompra,
                 precoVenda: produto.precoVenda,
-                estoque: produto.estoque,
-                fornecedor: produto.fornecedor.razaoSocial
+                qtdEstoque: produto.estoque,
+                totalAno: totalVendasAno,
+                nomeForn: produto.fornecedor.razaoSocial,
+                cnpjForn: produto.fornecedor.cnpj
             }
         });
     }
@@ -193,5 +196,52 @@ export class ArmazemController {
 
         let total = quantidade * produto.precoCompra;
         
+    }
+    consultarFaturamentoMes(mes) {
+        let meses = ["Janeiro", "Fevereiro", "Março", "Abril","Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
+        let faturamento = 0
+        this.#vetProdutos.map(produto => {
+            // Soma a venda de todos os meses de determinado produto;
+            faturamento += produto.vendas[mes - 1] * produto.precoVenda
+            
+        })
+        return {
+            mes: meses[mes - 1],
+            faturamento: faturamento
+        }
+    }
+    listarTabelaVendasAnual () {
+        // Retorna uma lista com descricao, 
+        let lista = this.#vetProdutos.map(produto => {
+            let totalAno = 0;
+            let vendas = produto.vendas.map(vendasMes => {
+                totalAno += vendasMes;
+                return vendasMes;
+            })
+            return {
+                descricao: produto.descricao,
+                vendasMensais: vendas,
+                totalAno: totalAno
+            };
+        })
+        return lista
+    }
+    listarProdutosFornecedor (cnpjFornecedor) {
+        // Retorna undefined se o fornecedor não existir;
+        // Retorna um array vazio se o fornecedor for encontrado, mas o mesmo não tiver produtos vinculados;
+        // Retorna uma lista de produtos, caso hajam produtos vinculados ao servidor
+        if (this.#vetFornecedores.find(fornecedor => fornecedor.cnpj == cnpjFornecedor)) {
+            let produtos = this.#vetProdutos.filter(produto => produto.fornecedor.cnpj == cnpjFornecedor);
+            return produtos.map((produto) => {
+            return {
+                descricao: produto.descricao,
+                precoCompra: produto.precoCompra,
+                precoVenda: produto.precoVenda,
+                estoque: produto.estoque,
+                fornecedor: produto.fornecedor.razaoSocial
+            }
+        });
+        }
+        return undefined;
     }
 }
