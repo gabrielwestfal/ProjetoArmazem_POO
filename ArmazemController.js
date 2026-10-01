@@ -106,15 +106,15 @@ export class ArmazemController {
         return this.#vetProdutos.find(
             (produto) => produto.descricao == descricao.toUpperCase()
         );
-        if(prod == undefined){
+        if (prod == undefined) {
             return false;
         }
         return {
-            descricao:prod.descricao,
-            precoCompra:prod.precoCompra,
-            precoVenda:prod.precoVenda,
-            estoque:prod.estoque,
-            fornecedor:prod.fornecedor
+            descricao: prod.descricao,
+            precoCompra: prod.precoCompra,
+            precoVenda: prod.precoVenda,
+            estoque: prod.estoque,
+            fornecedor: prod.fornecedor
         }
     }
     listarProdutos() {
@@ -171,27 +171,33 @@ export class ArmazemController {
         produto.alterarVendas(quantidade, mes)
         return "SUCESSO";
     }
-    comprarProduto(descricao,quantidade,precoCompra,precoVenda,cnpjFornecedor){
+    comprarProduto(descricao, quantidade, precoCompra, precoVenda, cnpjFornecedor) {
         let produto = this.#vetProdutos.find(
             (produto) => produto.descricao == descricao.toUpperCase()
         );
-        
-        if(produto == undefined){
+
+        let fornecedor = produto.fornecedor;
+
+        if (produto == undefined) {
             return "PRODUTO_NAO_ENCONTRADO";
-        }if(cnpjFornecedor != ""){
-            let fornecedor = this.#vetFornecedores.find(
+        } if (cnpjFornecedor != undefined) {
+            fornecedor = this.#vetFornecedores.find(
                 (fornecedor) => fornecedor.cnpj == cnpjFornecedor
             );
-            if(fornecedor == undefined){
+            if (fornecedor == undefined) {
                 return "FORNECEDOR_NAO_ENCONTRADO";
             }
             produto.fornecedor = fornecedor;
         }
         // produto.quantidade = quantidade != "" ? :;
         produto.precoCompra = precoCompra != "" ? precoCompra : produto.precoCompra;
-        produto.precoVenda = precoVenda != "" ? precoVenda: produto.precoVenda;
+        produto.precoVenda = precoVenda != "" ? precoVenda : produto.precoVenda;
 
         let total = quantidade * produto.precoCompra;
-        
+        if (fornecedor.creditoDisponibilizado < total) {
+            return "CREDITO_INSUFICIENTE";
+        }
+        produto.estoque += quantidade;
+        return "SUCESSO";
     }
 }

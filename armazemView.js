@@ -583,5 +583,7 @@ controller.cadastrarProduto("maça",1,2,5,123);
 console.log(controller.listarProdutos());
 console.log(controller.alterarProduto("maça",2, 4, 10,""));
 console.log(controller.listarProdutos());
-console.log(controller.alterarVendasMes("maça",12, 100))
+console.log(controller.alterarVendasMes("maça",12, 100));
+console.log(controller.comprarProduto("maça",5,"","",111));
+console.log(controller.listarProdutos());
 
