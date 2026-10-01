@@ -196,7 +196,7 @@ function executarOpcaoProduto() {
             if (descricao == "" || mes == 0 || qtd == 0) {
                 exibirMensagem("Os campos Produto, Mês e Quantidade são obrigatórios!", "red");
             } else {
-                const resultado = controller.alterarVendaMes(descricao, mes, qtd);
+                const resultado = controller.alterarVendasMes(descricao, mes, qtd);
                 const msgs = {
                     "SUCESSO":                { cor: "blue", texto: "Venda mensal atualizada com sucesso!" },
                     "PRODUTO_NAO_ENCONTRADO": { cor: "red",  texto: `Produto "${descricao}" não encontrado!` },
@@ -577,3 +577,11 @@ function criarTabelaFornecedores(lista) {
     table.appendChild(tbody);
     return table;
 }
+controller.cadastrarFornecedor("gabe",123,321,"taboca",1000);
+controller.cadastrarFornecedor("leo",111,321,"taboca",1000);
+controller.cadastrarProduto("maça",1,2,5,123);
+console.log(controller.listarProdutos());
+console.log(controller.alterarProduto("maça",2, 4, 10,""));
+console.log(controller.listarProdutos());
+console.log(controller.alterarVendasMes("maça",12, 100))
+

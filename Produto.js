@@ -34,15 +34,20 @@ export class Produto {
     get vendas () {
         return this.#vendas;
     }
-
-    set descricao (descricao) {
-        this.#descricao = descricao.toUpperCase(); 
+    get fornecedor(){
+        return this.#fornecedor;
     }
     set precoCompra (preco) {
         this.#precoCompra = preco;
     }
     set precoVenda (preco) {
         this.#precoVenda = preco;
+    }
+    set estoque(estoque){
+        this.#estoque = estoque;
+    }
+    set fornecedor(fornecedor){
+        this.#fornecedor = fornecedor;
     }
 
     // Methods
@@ -67,6 +72,13 @@ export class Produto {
             return "Houve um erro ao alterar o estoque";
         }
     }
+    alterarVendas(quantidade, mes){
+        if(mes  >= 1 && mes <= 12){
+            this.#vendas[mes - 1] = quantidade;
+            return true;
+        }
+        return false;
+    }
     comprar (quantidade) {
         this.#estoque += quantidade;
         return `Compra realizada com sucesso`
@@ -83,9 +95,3 @@ export class Produto {
 
 }
 
-let prod = new Produto ("Bala Fini", 2.56, 12);
-prod.descricao = "Bala Fini 987"
-console.log(prod.alterarEstoque(5, 25))
-console.log(prod.alterarEstoque(1, 6))
-console.log(prod.alterarEstoque(9, 56))
-console.log(prod.vendas[11])
