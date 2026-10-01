@@ -4,7 +4,6 @@ import { Produto } from "./Produto.js";
 export class ArmazemController {
     #vetProdutos = [];
     #vetFornecedores = [];
-
     // Parte Fornecedor
 
     cadastrarFornecedor(razaoSocial, cnpj, telefone, endereco, credito) {
@@ -107,6 +106,16 @@ export class ArmazemController {
         return this.#vetProdutos.find(
             (produto) => produto.descricao == descricao.toUpperCase()
         );
+        if(prod == undefined){
+            return false;
+        }
+        return {
+            descricao:prod.descricao,
+            precoCompra:prod.precoCompra,
+            precoVenda:prod.precoVenda,
+            estoque:prod.estoque,
+            fornecedor:prod.fornecedor
+        }
     }
     listarProdutos() {
         return this.#vetProdutos.map((produto) => {

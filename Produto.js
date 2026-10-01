@@ -14,7 +14,7 @@ export class Produto {
         this.#estoque = estoque;
         // Corrigido : this.#fornecedor deve guardar a referência de um objeto da classe fornecedor
         // this.#fornecedor = fornecedor.toUpperCase();
-        this.#fornecedor = fornecedor
+        this.#fornecedor = fornecedor;
     }
 
     // Getters & Setters
