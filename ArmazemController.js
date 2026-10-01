@@ -177,13 +177,18 @@ export class ArmazemController {
         );
 
         let fornecedor = produto.fornecedor;
-
-        if (produto == undefined) {
-            return "PRODUTO_NAO_ENCONTRADO";
-        } if (cnpjFornecedor != undefined) {
+        if (cnpjFornecedor != "") {
             fornecedor = this.#vetFornecedores.find(
                 (fornecedor) => fornecedor.cnpj == cnpjFornecedor
             );
+
+            if (produto == undefined) {
+                return "PRODUTO_NAO_ENCONTRADO";
+            } if (cnpjFornecedor != undefined) {
+                fornecedor = this.#vetFornecedores.find(
+                    (fornecedor) => fornecedor.cnpj == cnpjFornecedor
+                );
+            }
             if (fornecedor == undefined) {
                 return "FORNECEDOR_NAO_ENCONTRADO";
             }
@@ -199,5 +204,19 @@ export class ArmazemController {
         }
         produto.estoque += quantidade;
         return "SUCESSO";
+    }
+    venderProduto(descricao, qtd) {
+        let produto = this.#vetProdutos.find(
+            (produto) => produto.descricao == descricao.toUpperCase()
+        );
+        if (produto == undefined) {
+            return {codigo:"PRODUTO_NAO_ENCONTRADO"};
+        }
+        if (qtd > produto.estoque) {
+            return {codigo:"ESTOQUE_INSUFICIENTE"};
+        }
+        let totalVenda = qtd * produto.precoVenda;
+        produto.estoque -= qtd;
+        return {codigo:"SUCESSO", totalVenda:totalVenda};
     }
 }

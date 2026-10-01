@@ -256,7 +256,7 @@ function executarOpcaoProduto() {
                     );
                 } else if (resultado.codigo === "PRODUTO_NAO_ENCONTRADO") {
                     exibirMensagem(`Erro! Produto "${descricao}" não encontrado!`, "red");
-                } else {
+                } else if(resultado.codigo === "ESTOQUE_INSUFICIENTE") {
                     exibirMensagem(
                         `Erro! Estoque insuficiente. Estoque atual: ${resultado.estoqueAtual} unidades.`,
                         "red"
@@ -584,6 +584,7 @@ console.log(controller.listarProdutos());
 console.log(controller.alterarProduto("maça",2, 4, 10,""));
 console.log(controller.listarProdutos());
 console.log(controller.alterarVendasMes("maça",12, 100));
-console.log(controller.comprarProduto("maça",5,"","",111));
+console.log(controller.comprarProduto("maça",5,"","",""));
 console.log(controller.listarProdutos());
-
+console.log(controller.venderProduto("maça", 5));
+console.log(controller.listarProdutos());
