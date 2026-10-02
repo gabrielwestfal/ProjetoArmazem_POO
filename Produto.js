@@ -5,15 +5,13 @@ export class Produto {
     #precoVenda;
     #estoque;
     #fornecedor;
-    #vendas = [];
+    #vendas = [0,0,0,0,0,0,0,0,0,0,0,0];
 
     constructor (descricao, precoCompra, precoVenda, estoque, fornecedor = undefined) {
         this.#descricao = descricao.toUpperCase();
         this.#precoCompra = precoCompra;
         this.#precoVenda = precoVenda;
         this.#estoque = estoque;
-        // Corrigido : this.#fornecedor deve guardar a referência de um objeto da classe fornecedor
-        // this.#fornecedor = fornecedor.toUpperCase();
         this.#fornecedor = fornecedor;
     }
 
