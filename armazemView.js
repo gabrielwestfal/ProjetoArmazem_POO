@@ -290,7 +290,7 @@ function executarOpcaoProduto() {
                 const dados = controller.consultarMaisVendidoMes(mes);
                 if (dados != undefined) {
                     exibirMensagem(
-                        `Produto mais vendido no mês ${mes}:\n` +
+                        `Produto mais vendido no mês ${dados.mes}:\n` +
                         `${dados.descricao} — ${dados.qtdVendida} unidades`,
                         "blue"
                     );
@@ -579,8 +579,8 @@ function criarTabelaFornecedores(lista) {
 }
 controller.cadastrarFornecedor("gabe",123,321,"taboca",1000);
 controller.cadastrarFornecedor("leo",111,321,"taboca",1000);
-controller.cadastrarProduto("maça",1,2,5,123);
-controller.cadastrarProduto("pera",1,3,54,111);
+controller.cadastrarProduto("maça",1,2,5);
+controller.cadastrarProduto("pera",1,3,54);
 console.log(controller.listarProdutos());
 console.log(controller.alterarProduto("maça",2, 4, 10,""));
 controller.alterarVendasMes("pera", 10, 210)

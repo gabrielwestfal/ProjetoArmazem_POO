@@ -89,32 +89,33 @@ export class ArmazemController {
     }
     // Parte Produto
 
-    cadastrarProduto(descricao, precoCompra, precoVenda, estoque, cnpjFornecedor) {
-        let novoProduto = this.pesquisarProduto(descricao);
-        let fornecedor = this.#vetFornecedores.find(
-            (fornecedor) => fornecedor.cnpj == cnpjFornecedor
-        );
-        if (fornecedor) {
-            if (novoProduto == undefined) {
-                this.#vetProdutos.push(new Produto(descricao, precoCompra, precoVenda, estoque, fornecedor));
-                return true;
-            }
+    cadastrarProduto(descricao, precoCompra, precoVenda, estoque) {
+        let produto = this.#vetProdutos.find(
+            (produto) => produto.descricao == descricao.toUpperCase()
+        )
+        // let fornecedor = this.#vetFornecedores.find(
+        //     (fornecedor) => fornecedor.cnpj == cnpjFornecedor
+        // );
+        if (produto == undefined) {
+            this.#vetProdutos.push(new Produto(descricao, precoCompra, precoVenda, estoque));
+            return true;
         }
         return false;
     }
-    pesquisarProduto(descricao) {
-        return this.#vetProdutos.find(
+    consultarProduto(descricao) {
+        let produto = this.#vetProdutos.find(
             (produto) => produto.descricao == descricao.toUpperCase()
         );
-        if(prod == undefined){
-            return false;
+        if (produto == undefined) {
+            return undefined;
         }
         return {
-            descricao:prod.descricao,
-            precoCompra:prod.precoCompra,
-            precoVenda:prod.precoVenda,
-            estoque:prod.estoque,
-            fornecedor:prod.fornecedor
+            descricao: produto.descricao,
+            precoCompra: produto.precoCompra,
+            precoVenda: produto.precoVenda,
+            qtdEstoque: produto.estoque,
+            nomeForn: produto.fornecedor == undefined ? "" : produto.fornecedor.razaoSocial,
+            cnpjForn: produto.fornecedor == undefined ? "" : produto.fornecedor.cnpj
         }
     }
     listarProdutos() {
@@ -126,8 +127,8 @@ export class ArmazemController {
                 precoVenda: produto.precoVenda,
                 qtdEstoque: produto.estoque,
                 totalAno: totalVendasAno,
-                nomeForn: produto.fornecedor.razaoSocial,
-                cnpjForn: produto.fornecedor.cnpj
+                nomeForn: produto.fornecedor == undefined ? "" : produto.fornecedor.razaoSocial,
+                cnpjForn: produto.fornecedor == undefined ? "" : produto.fornecedor.cnpj
             }
         });
     }
@@ -153,19 +154,18 @@ export class ArmazemController {
                 if (fornecedor != undefined) {
                     produto.fornecedor = fornecedor;
                 } else {
-                    return false;
+                    return "FORNECEDOR_NAO_ENCONTRADO";
                 }
             }
             produto.precoCompra = precoCompra !== "" ? precoCompra : produto.precoCompra;
             produto.precoVenda = precoVenda !== "" ? precoVenda : produto.precoVenda;
             produto.estoque = estoque !== "" ? estoque : produto.estoque;
-            return true;
+            return "SUCESSO";
         }
-
-        return false;
+        return "PRODUTO_NAO_ENCONTRADO";
     }
     alterarVendasMes(descricao, mes, quantidade) {
-        let produto = this.pesquisarProduto(descricao);
+        let produto = this.#vetProdutos.find((produto) => produto.descricao == descricao.toUpperCase());
         if (produto == undefined) {
             return "PRODUTO_NAO_ENCONTRADO";
         } else if (mes < 1 || mes > 12) {
@@ -174,43 +174,69 @@ export class ArmazemController {
         produto.alterarVendas(quantidade, mes)
         return "SUCESSO";
     }
-    comprarProduto(descricao,quantidade,precoCompra,precoVenda,cnpjFornecedor){
+    comprarProduto(descricao, quantidade, precoCompra, precoVenda, cnpjFornecedor) {
         let produto = this.#vetProdutos.find(
             (produto) => produto.descricao == descricao.toUpperCase()
         );
-        
-        if(produto == undefined){
+
+        if (produto == undefined) {
             return "PRODUTO_NAO_ENCONTRADO";
-        }if(cnpjFornecedor != ""){
+        } if (cnpjFornecedor != "") {
             let fornecedor = this.#vetFornecedores.find(
                 (fornecedor) => fornecedor.cnpj == cnpjFornecedor
             );
-            if(fornecedor == undefined){
+            if (fornecedor == undefined) {
                 return "FORNECEDOR_NAO_ENCONTRADO";
             }
             produto.fornecedor = fornecedor;
         }
         // produto.quantidade = quantidade != "" ? :;
         produto.precoCompra = precoCompra != "" ? precoCompra : produto.precoCompra;
-        produto.precoVenda = precoVenda != "" ? precoVenda: produto.precoVenda;
+        produto.precoVenda = precoVenda != "" ? precoVenda : produto.precoVenda;
 
         let total = quantidade * produto.precoCompra;
-        
+
+    }
+    consultarTotalVendasAno(descricao) {
+        let produto = this.#vetProdutos.find((produto) => produto.descricao == descricao.toUpperCase());
+        if (produto) {
+            let faturamento = produto.vendas.reduce((acumulador, atual) => acumulador + atual, 0);
+            return {
+                descricao: produto.descricao,
+                totalVendas: faturamento
+            }
+        }
+        return undefined;
+    }
+    consultarMaisVendidoMes (mes) {
+        let meses = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
+        let maisVendido = {
+            descricao: undefined,
+            qtdVendida: 0,
+            mes: meses[mes - 1]
+        }
+        this.#vetProdutos.forEach(produto => {
+            if (produto.vendas[mes] >= maisVendido.qtdVendida) {
+                maisVendido.descricao = produto.descricao;
+                maisVendido.qtdVendida = produto.vendas[mes];
+            }
+        }) 
+        return this.#vetProdutos.length == 0 ? undefined : maisVendido;
     }
     consultarFaturamentoMes(mes) {
-        let meses = ["Janeiro", "Fevereiro", "Março", "Abril","Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
+        let meses = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
         let faturamento = 0
         this.#vetProdutos.map(produto => {
             // Soma a venda de todos os meses de determinado produto;
             faturamento += produto.vendas[mes - 1] * produto.precoVenda
-            
+
         })
         return {
             mes: meses[mes - 1],
             faturamento: faturamento
         }
     }
-    listarTabelaVendasAnual () {
+    listarTabelaVendasAnual() {
         // Retorna uma lista com descricao, 
         let lista = this.#vetProdutos.map(produto => {
             let totalAno = 0;
@@ -226,21 +252,26 @@ export class ArmazemController {
         })
         return lista
     }
-    listarProdutosFornecedor (cnpjFornecedor) {
+    listarProdutosFornecedor(cnpjFornecedor) {
         // Retorna undefined se o fornecedor não existir;
         // Retorna um array vazio se o fornecedor for encontrado, mas o mesmo não tiver produtos vinculados;
         // Retorna uma lista de produtos, caso hajam produtos vinculados ao servidor
         if (this.#vetFornecedores.find(fornecedor => fornecedor.cnpj == cnpjFornecedor)) {
-            let produtos = this.#vetProdutos.filter(produto => produto.fornecedor.cnpj == cnpjFornecedor);
+            let produtos = this.#vetProdutos.filter(
+                produto => produto.fornecedor !== undefined ? produto.fornecedor.cnpj : "" == cnpjFornecedor
+            );
             return produtos.map((produto) => {
-            return {
+                let totalVendasAno = produto.vendas.reduce((vendaMes, acumulador) => acumulador + vendaMes);
+                return {
                 descricao: produto.descricao,
                 precoCompra: produto.precoCompra,
                 precoVenda: produto.precoVenda,
-                estoque: produto.estoque,
-                fornecedor: produto.fornecedor.razaoSocial
+                qtdEstoque: produto.estoque,
+                totalAno: totalVendasAno,
+                nomeForn: produto.fornecedor == undefined ? "" : produto.fornecedor.razaoSocial,
+                cnpjForn: produto.fornecedor == undefined ? "" : produto.fornecedor.cnpj
             }
-        });
+            });
         }
         return undefined;
     }
