@@ -1,56 +1,151 @@
-#  Projeto Armazém — Programação Orientada a Objetos
+# 📦 Armazém Xampu — Sistema de Gerenciamento de Armazém
 
-##  Sobre o projeto
+<p align="center">
+  <img src="box.png" alt="Logo do Armazém Xampu" width="150">
+</p>
 
-O **Projeto Armazém** foi desenvolvido como trabalho acadêmico da disciplina de **Programação Orientada a Objetos (POO)**, ministrada pelo professor **Archimedes Detoni**, no Instituto Federal do Espírito Santo (IFES).
+<p align="center">
+  Sistema desenvolvido para o gerenciamento de produtos, estoque, vendas e fornecedores.
+</p>
 
-O projeto tem como objetivo aplicar, na prática, os conhecimentos adquiridos durante a disciplina por meio do desenvolvimento de um sistema relacionado ao gerenciamento de um armazém.
+---
 
-A proposta é utilizar a programação para organizar as informações e estruturar as funcionalidades do sistema, facilitando a compreensão de como um software pode auxiliar no controle e na organização de um ambiente comercial.
+## 📋 Sobre o projeto
 
-##  Objetivos
+O **Armazém Xampu** é um projeto acadêmico desenvolvido para a disciplina de **Programação Orientada a Objetos (POO)**, ministrada pelo professor **Archimedes Detoni**, no Instituto Federal do Espírito Santo (IFES).
+
+O sistema foi criado com o objetivo de colocar em prática os conceitos estudados durante a disciplina, desenvolvendo uma aplicação capaz de auxiliar no controle de um armazém.
+
+Por meio de uma interface simples, é possível gerenciar produtos e fornecedores, acompanhar o estoque, registrar compras e vendas e consultar informações importantes para o controle do negócio.
+
+## 🎯 Objetivos
 
 - Aplicar os conceitos de Programação Orientada a Objetos.
-- Desenvolver um sistema organizado e funcional.
-- Trabalhar com classes, objetos, atributos e métodos.
-- Praticar a organização e a reutilização de código.
-- Desenvolver habilidades de programação e trabalho em equipe.
+- Desenvolver um sistema funcional utilizando JavaScript.
+- Organizar o código por meio de classes e módulos.
+- Facilitar o gerenciamento de produtos e fornecedores.
+- Trabalhar com operações de estoque, compras e vendas.
+- Praticar a validação de dados e a organização das funcionalidades.
 
-##  Conceitos de POO
+## ⚙️ Funcionalidades
 
-Durante o desenvolvimento do projeto, são trabalhados conceitos importantes da Programação Orientada a Objetos, como:
+### 📦 Gerenciamento de produtos
 
-- **Classes e objetos:** utilizados para representar elementos do sistema.
-- **Atributos:** responsáveis por armazenar as características dos objetos.
-- **Métodos:** utilizados para definir as ações e os comportamentos do sistema.
-- **Encapsulamento:** ajuda a organizar e controlar o acesso aos dados.
-- **Organização do código:** separação das responsabilidades para facilitar a manutenção e a compreensão do projeto.
+- Cadastrar novos produtos.
+- Consultar informações dos produtos.
+- Alterar preços e quantidades em estoque.
+- Excluir produtos cadastrados.
+- Listar todos os produtos.
+- Filtrar produtos de acordo com a quantidade em estoque.
+- Consultar produtos vinculados a fornecedores.
 
-## Funcionamento do sistema
+### 🏢 Gerenciamento de fornecedores
 
-O sistema foi pensado para representar operações relacionadas a um armazém, utilizando a lógica de programação e os conceitos estudados na disciplina.
+- Cadastrar fornecedores com razão social, CNPJ, telefone e endereço.
+- Consultar os dados dos fornecedores.
+- Alterar informações cadastradas.
+- Excluir fornecedores quando não possuem produtos vinculados.
+- Listar todos os fornecedores.
+- Filtrar fornecedores pelo crédito disponibilizado.
 
-A implementação busca organizar as funcionalidades em estruturas de código que facilitem o desenvolvimento, a manutenção e a evolução do sistema.
+### 💰 Controle de compras e vendas
 
-##  Tecnologias utilizadas
+- Registrar compras de produtos.
+- Atualizar o estoque após as operações.
+- Registrar vendas e calcular o valor total.
+- Verificar se existe estoque suficiente para uma venda.
+- Considerar o crédito disponível do fornecedor durante as compras.
 
-As tecnologias e ferramentas utilizadas podem ser consultadas diretamente nos arquivos do repositório.
+### 📊 Relatórios e consultas
 
-##  Integrantes
+- Consultar a quantidade total vendida de um produto no ano.
+- Identificar o produto mais vendido em determinado mês.
+- Consultar o faturamento mensal.
+- Visualizar a tabela de vendas dos meses do ano.
+- Consultar informações sobre estoque e fornecedores.
+
+## 🧠 Conceitos de Programação Orientada a Objetos
+
+Durante o desenvolvimento, foram aplicados conceitos importantes de POO:
+
+- **Classes e objetos:** representação de produtos, fornecedores e do controle do armazém.
+- **Atributos:** armazenamento das características de cada objeto.
+- **Métodos:** implementação das operações disponíveis no sistema.
+- **Encapsulamento:** utilização de atributos privados para controlar o acesso aos dados.
+- **Modularização:** divisão do código em arquivos com responsabilidades diferentes.
+- **Organização MVC simplificada:** separação entre a interface, a lógica de controle e as classes que representam os dados.
+
+## 🛠️ Tecnologias utilizadas
+
+- **HTML5:** estrutura da página.
+- **CSS3:** estilização da interface.
+- **JavaScript:** implementação da lógica e das funcionalidades.
+- **Módulos ES6:** organização e importação das classes entre arquivos.
+- **Git e GitHub:** versionamento e compartilhamento do código.
+
+## 📁 Estrutura do projeto
+
+```text
+ProjetoArmazem_POO/
+├── ArmazemController.js
+├── Fornecedor.js
+├── Produto.js
+├── armazem.html
+├── armazem.css
+├── armazemView.js
+├── box.png
+└── README.md
+```
+
+**Principais arquivos:**
+
+- `ArmazemController.js`: controla as operações de produtos e fornecedores.
+- `Fornecedor.js`: define a classe e os dados dos fornecedores.
+- `Produto.js`: define a classe dos produtos e seus dados, incluindo as vendas mensais.
+- `armazem.html`: estrutura da interface do sistema.
+- `armazem.css`: estilos e aparência da página.
+- `armazemView.js`: conecta a interface às funcionalidades do sistema.
+- `box.png`: imagem utilizada na identificação visual do armazém.
+
+## ▶️ Como executar o projeto
+
+1. Faça o download do projeto ou clone o repositório:
+
+   ```bash
+   git clone https://github.com/gabrielwestfal/ProjetoArmazem_POO.git
+   ```
+
+2. Entre na pasta do projeto:
+
+   ```bash
+   cd ProjetoArmazem_POO
+   ```
+
+3. Abra a pasta no Visual Studio Code.
+
+4. Execute o arquivo `armazem.html` utilizando uma extensão de servidor local, como o Live Server, para permitir o funcionamento correto dos módulos JavaScript.
+
+5. Utilize as opções da interface para cadastrar produtos, gerenciar fornecedores e realizar consultas e operações de compra e venda.
+
+## 👨‍💻 Integrantes
 
 - **Gabriel Westfal**
 - **Leonardo Beling**
 
-##  Professor responsável
+## 👨‍🏫 Professor responsável
 
 **Archimedes Detoni**
 
 Disciplina: Programação Orientada a Objetos (POO)
 
-##  Repositório do projeto
+Instituição: Instituto Federal do Espírito Santo (IFES)
 
-[Projeto Armazém — GitHub](https://github.com/gabrielwestfal/ProjetoArmazem_POO)
+## 🔗 Repositório
+
+[**Acessar o ProjetoArmazem_POO no GitHub**](https://github.com/gabrielwestfal/ProjetoArmazem_POO)
 
 ---
 
-*Projeto acadêmico desenvolvido por Gabriel Westfal e Leonardo Beling para a disciplina de Programação Orientada a Objetos, sob orientação do professor Archimedes Detoni.*
+<p align="center">
+  Desenvolvido por Gabriel Westfal e Leonardo Beling como trabalho acadêmico da disciplina de Programação Orientada a Objetos.
+</p>
